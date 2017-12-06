@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC8055451FD7F38D001037E1 /* SimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = EC8055441FD7F38D001037E1 /* SimpleVertex.glsl */; };
+		EC8055471FD7F422001037E1 /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = EC8055461FD7F422001037E1 /* SimpleFragment.glsl */; };
 		EC89C7401FBE72D3003E18CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EC89C73F1FBE72D3003E18CA /* AppDelegate.m */; };
 		EC89C7431FBE72D3003E18CA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC89C7421FBE72D3003E18CA /* ViewController.m */; };
 		EC89C7461FBE72D3003E18CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC89C7441FBE72D3003E18CA /* Main.storyboard */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EC8055441FD7F38D001037E1 /* SimpleVertex.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = SimpleVertex.glsl; sourceTree = "<group>"; };
+		EC8055461FD7F422001037E1 /* SimpleFragment.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = SimpleFragment.glsl; sourceTree = "<group>"; };
 		EC89C73B1FBE72D3003E18CA /* OpenGLLearn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenGLLearn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC89C73E1FBE72D3003E18CA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EC89C73F1FBE72D3003E18CA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 				EC89C74D1FBE72D3003E18CA /* main.m */,
 				EC89C7591FBE7367003E18CA /* OpenGLView.h */,
 				EC89C75A1FBE7367003E18CA /* OpenGLView.m */,
+				EC8055441FD7F38D001037E1 /* SimpleVertex.glsl */,
+				EC8055461FD7F422001037E1 /* SimpleFragment.glsl */,
 			);
 			path = OpenGLLearn;
 			sourceTree = "<group>";
@@ -151,8 +157,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC89C74B1FBE72D3003E18CA /* LaunchScreen.storyboard in Resources */,
+				EC8055451FD7F38D001037E1 /* SimpleVertex.glsl in Resources */,
 				EC89C7481FBE72D3003E18CA /* Assets.xcassets in Resources */,
 				EC89C7461FBE72D3003E18CA /* Main.storyboard in Resources */,
+				EC8055471FD7F422001037E1 /* SimpleFragment.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
