@@ -29,8 +29,10 @@ static float vertices[] = {
         [self setupLayer];
         [self setupContex];
         [self setupRenderBuffer];
+        [self setupFrameBuffer];
         [self render];
     }
+    
     return self;
 }
 
@@ -44,7 +46,7 @@ static float vertices[] = {
 }
 
 - (void)setupContex {
-    _contex = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+    _contex = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     if (!_contex) {
         NSLog(@"failed to create contex opengles 3");
         exit(1);
@@ -57,7 +59,13 @@ static float vertices[] = {
     
 }
 
-- (void)setupRenderBuffer {
+- (void)setupRenderBuffer {    
+    glGenRenderbuffers(1, &_colorRenderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+    [_contex renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
+}
+
+- (void)setupArrayBuffer {
     GLuint VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -65,19 +73,19 @@ static float vertices[] = {
 }
 
 - (void)setupFrameBuffer {
-    
+    GLuint framebuffer;
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                              GL_RENDERBUFFER, _colorRenderBuffer);
 }
 
 - (void)render {
-    
+    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    [_contex presentRenderbuffer:GL_RENDERBUFFER];
+
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end
