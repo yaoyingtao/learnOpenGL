@@ -46,7 +46,7 @@ const GLubyte indices[] = {
         [self setupContex];
         [self setupRenderBuffer];
         [self setupFrameBuffer];
-        [self compleShader];
+        [self compileShaders];
         [self setupVBO];
         [self render];
     }
@@ -88,7 +88,7 @@ const GLubyte indices[] = {
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
+
     GLuint indexBuffer;
     glGenBuffers(1, &indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -109,24 +109,24 @@ const GLubyte indices[] = {
 
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(vertices), 0);
-    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(vertices), (GLvoid*)(sizeof(float)*3));
-
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(float)*3));
+    
     glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(indices[0]), GL_UNSIGNED_BYTE, 0);
 
 
     [_contex presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-- (void)compleShader {
+- (void)compileShaders {
     GLuint vertexShader = [self compileShader:@"SimpleVertex" withType:GL_VERTEX_SHADER];
     GLuint fragementShader = [self compileShader:@"SimpleFragment" withType:GL_FRAGMENT_SHADER];
-    
+
     GLuint programHandle = glCreateProgram();
     glAttachShader(programHandle, vertexShader);
     glAttachShader(programHandle, fragementShader);
     glLinkProgram(programHandle);
-    
+
     GLint linkSuccess;
     glGetProgramiv(programHandle, GL_LINK_STATUS, &linkSuccess);
     if (linkSuccess == GL_FALSE) {
@@ -136,18 +136,15 @@ const GLubyte indices[] = {
         NSLog(@"%@", messageString);
         exit(1);
     }
-    
+
     glUseProgram(programHandle);
-    
+
     _positionSlot = glGetAttribLocation(programHandle, "Position");
-    _colorSlot = glGetAttribLocation(programHandle, "SourceColot");
+    _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
-    
+
 }
-
-
-
 
 
 #pragma mark - tool
