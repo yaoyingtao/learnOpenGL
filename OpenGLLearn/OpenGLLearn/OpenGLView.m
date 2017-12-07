@@ -15,10 +15,10 @@ typedef struct {
 } Vertex;
 
 const Vertex vertices[] = {
-    {{1, -1, -7}, {1, 0, 0, 1}},
-    {{1, 1, -7}, {0, 1, 0, 1}},
-    {{-1, 1, -7}, {0, 0, 1, 1}},
-    {{-1, -1, -7}, {0, 0, 0, 1}}
+    {{1, -1, 0}, {1, 0, 0, 1}},
+    {{1, 1, 0}, {0, 1, 0, 1}},
+    {{-1, 1, 0}, {0, 0, 1, 1}},
+    {{-1, -1, 0}, {0, 0, 0, 1}}
 };
 
 const GLubyte indices[] = {
@@ -34,8 +34,8 @@ const GLubyte indices[] = {
 @property (nonatomic, assign) GLuint positionSlot;
 @property (nonatomic, assign) GLuint colorSlot;
 @property (nonatomic, assign) GLuint projectionUniform;
-
-
+@property (nonatomic, assign) GLuint modelViewUniform;
+@property (nonatomic, assign) float currentRotation;
 
 
 @end
@@ -51,7 +51,7 @@ const GLubyte indices[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVBO];
-        [self render];
+        [self setupDisplayLink];
     }
     
     return self;
@@ -106,7 +106,7 @@ const GLubyte indices[] = {
                               GL_RENDERBUFFER, _colorRenderBuffer);
 }
 
-- (void)render {
+- (void)render:(CADisplayLink*)displayLink {
     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -114,6 +114,13 @@ const GLubyte indices[] = {
     float h = 4.0f * self.frame.size.height/self.frame.size.width;
     [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:10];
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
+    
+    _currentRotation += displayLink.duration * 90;
+    
+    CC3GLMatrix *modelView = [CC3GLMatrix matrix];
+    [modelView populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -7)];
+    [modelView rotateBy:CC3VectorMake(_currentRotation, _currentRotation, 0)];
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
     
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 
@@ -150,10 +157,16 @@ const GLubyte indices[] = {
     _positionSlot = glGetAttribLocation(programHandle, "Position");
     _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
     _projectionUniform = glGetUniformLocation(programHandle, "Projection");
+    _modelViewUniform = glGetUniformLocation(programHandle, "Modelview");
 
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
 
+}
+
+- (void)setupDisplayLink {
+    CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render:)];
+    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 
