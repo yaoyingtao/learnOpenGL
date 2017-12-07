@@ -37,26 +37,26 @@
 //    {{-1, -1, -1}, {0, 1, 0, 1}}
 //};
 //
-const GLubyte indices[] = {
-    // Front
-    0, 1, 2,
-    2, 3, 0,
-    // Back
-    4, 6, 5,
-    4, 7, 6,
-    // Left
-    2, 7, 3,
-    7, 6, 2,
-    // Right
-    0, 4, 1,
-    4, 1, 5,
-    // Top
-    6, 2, 1,
-    1, 6, 5,
-    // Bottom
-    0, 3, 7,
-    0, 7, 4
-};
+//const GLubyte indices[] = {
+//    // Front
+//    0, 1, 2,
+//    2, 3, 0,
+//    // Back
+//    4, 6, 5,
+//    4, 7, 6,
+//    // Left
+//    2, 7, 3,
+//    7, 6, 2,
+//    // Right
+//    0, 4, 1,
+//    4, 1, 5,
+//    // Top
+//    6, 2, 1,
+//    1, 6, 5,
+//    // Bottom
+//    0, 3, 7,
+//    0, 7, 4
+//};
 
 
 typedef struct {
@@ -65,15 +65,71 @@ typedef struct {
     float TexCoord[2]; // New
 } Vertex;
 
+#define TEX_COORD_MAX   4
+
 const Vertex vertices[] = {
-    {{1, -1, 0}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, 0}, {1, 0, 0, 1}, {1, 1}},
-    {{-1, 1, 0}, {0, 1, 0, 1}, {0, 1}},
-    {{-1, -1, 0}, {0, 1, 0, 1}, {0, 0}},
-    {{1, -1, -1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, -1}, {1, 0, 0, 1}, {1, 1}},
-    {{-1, 1, -1}, {0, 1, 0, 1}, {0, 1}},
-    {{-1, -1, -1}, {0, 1, 0, 1}, {0, 0}}
+    // Front
+    {{1, -1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, 1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, 1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, -1, 0}, {0, 0, 0, 1}, {0, 0}},
+    // Back
+    {{1, 1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{-1, -1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{1, -1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, 1, -2}, {0, 0, 0, 1}, {0, 0}},
+    // Left
+    {{-1, -1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{-1, 1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, 1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, -1, -2}, {0, 0, 0, 1}, {0, 0}},
+    // Right
+    {{1, -1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, 1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{1, 1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{1, -1, 0}, {0, 0, 0, 1}, {0, 0}},
+    // Top
+    {{1, 1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, 1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, 1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, 1, 0}, {0, 0, 0, 1}, {0, 0}},
+    // Bottom
+    {{1, -1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, -1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, -1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, -1, -2}, {0, 0, 0, 1}, {0, 0}}
+};
+
+const GLubyte indices[] = {
+    // Front
+    0, 1, 2,
+    2, 3, 0,
+    // Back
+    4, 5, 6,
+    4, 5, 7,
+    // Left
+    8, 9, 10,
+    10, 11, 8,
+    // Right
+    12, 13, 14,
+    14, 15, 12,
+    // Top
+    16, 17, 18,
+    18, 19, 16,
+    // Bottom
+    20, 21, 22,
+    22, 23, 20
+};
+
+const Vertex Vertices2[] = {
+    {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
+    {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
+    {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
+    {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
+};
+
+const GLubyte Indices2[] = {
+    1, 0, 2, 3
 };
 
 @interface OpenGLView ()
@@ -92,6 +148,11 @@ const Vertex vertices[] = {
 @property (nonatomic, assign) GLuint fishTexture;
 @property (nonatomic, assign) GLuint texCoordSlot;
 @property (nonatomic, assign) GLuint textureUniform;
+
+@property (nonatomic, assign) GLuint vertexBuffer;
+@property (nonatomic, assign) GLuint indexBuffer;
+@property (nonatomic, assign) GLuint vertexBuffer2;
+@property (nonatomic, assign) GLuint indexBuffer2;
 
 
 @end
@@ -147,15 +208,21 @@ const Vertex vertices[] = {
 }
 
 - (void)setupVBO {
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glGenBuffers(1, &_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    GLuint indexBuffer;
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+    glGenBuffers(1, &_indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &_vertexBuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), Vertices2, GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &_indexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), Indices2, GL_STATIC_DRAW);
 }
 
 - (void)setupFrameBuffer {
@@ -174,6 +241,8 @@ const Vertex vertices[] = {
 }
 
 - (void)render:(CADisplayLink*)displayLink {
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
@@ -191,6 +260,10 @@ const Vertex vertices[] = {
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
     
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    
+    //绘制cube
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
 
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(float)*3));
@@ -203,6 +276,25 @@ const Vertex vertices[] = {
     glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(indices[0]), GL_UNSIGNED_BYTE, 0);
 
 
+    
+    //绘制fish
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _fishTexture);
+    glUniform1f(_textureUniform, 0);
+    
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
+    
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(float)*3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(float)*7));
+    
+    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
+
+    
+    
     [_contex presentRenderbuffer:GL_RENDERBUFFER];
 }
 
