@@ -193,31 +193,31 @@ const GLubyte indices[] = {
     time %=180;
     CC3GLMatrix *model = [[CC3GLMatrix alloc] initIdentity];
     [model translateByZ:-5];
-    
+
     [model rotateByZ:-time];
     [model rotateByY:-time];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, model.glMatrix);
+
     
-    
-    
+
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), 0);
-    //    glVertexAttribPointer(_colorSlot, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), 3*sizeof(float));
+//    glVertexAttribPointer(_colorSlot, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), 3*sizeof(float));
     glVertexAttribPointer(_texureSlot, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), 3*sizeof(float));
-    
+
     glUniform1i(_textureUniform, 0);
     glUniform1i(_fishUniform, 1);
-    
-    //    glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(indices[0]), GL_UNSIGNED_BYTE, 0);
+
+//    glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(indices[0]), GL_UNSIGNED_BYTE, 0);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     
     int x[] = {-1,3,7,-5,9,8,7,-4,3,5};
     int y[] = {3,-4,-7,5,-2,3,-9,5,-3,5};
-    
+
     for (int i = 1; i < 10; i++) {
         CC3GLMatrix *model1 = [[CC3GLMatrix alloc] initIdentity];
         [model1 translateByZ:-5-i];
         
-        
+     
         [model1 translateByY:x[i]];
         [model1 translateByX:y[i]];
         [model1 rotateByZ:-time];
