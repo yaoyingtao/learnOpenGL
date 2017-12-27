@@ -192,11 +192,36 @@ const GLubyte indices[] = {
     NSInteger time =  [[NSDate date] timeIntervalSince1970];
     time %=180;
     
+    
+    
+    static NSInteger count = 0;
+    CC3Vector camPos = CC3VectorMake(5, 0, -5);
+    CC3Vector originPos = CC3VectorMake(0, 0, -1);
+    CC3Vector upPos = CC3VectorMake(0, 1, 0);
+
+    CGFloat speed = 2;
+    if (count < 120) {
+        camPos.z += speed;
+    } else if (count < 240) {
+        camPos.z -= speed;
+//    } else if (count < 360) {
+//        camPos.y += speed;
+//    } else if (count < 480) {
+//        camPos.y -= speed;
+//    } else if (count < 600) {
+//        camPos.z += speed;
+//    } else if (count < 720) {
+//        camPos.z -= speed;
+    } else {
+        count = 0;
+    }
+    count++;
+    
     float radius = 10.0f;
     float camX = sin(time)*radius;
     float camZ = cos(time)*radius;
     CC3GLMatrix *model = [[CC3GLMatrix alloc] initIdentity];
-    [model populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
+    [model populateToLookAt:originPos withEyeAt:CC3VectorMake(camPos.x + originPos.x, camPos.y + originPos.y, camPos.z + originPos.z) withUp:upPos];
 //    [model translateByZ:-5];
 
 //    [model rotateByZ:-time];
@@ -228,12 +253,12 @@ const GLubyte indices[] = {
 //        [model1 translateByZ:-5-i];
         
      
-        [CC3GLMatrix populate:model1.glMatrix toLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
+        [CC3GLMatrix populate:model1.glMatrix toLookAt:originPos withEyeAt:CC3VectorMake(camPos.x + originPos.x, camPos.y + originPos.y, camPos.z + originPos.z) withUp:upPos];
         [model1 translateByY:i];
         [model1 translateByX:i];
 
-        [model1 rotateByZ:-time];
-        [model1 rotateByY:-time];
+//        [model1 rotateByZ:-time];
+//        [model1 rotateByY:-time];
         glUniformMatrix4fv(_modelViewUniform, 1, 0, model1.glMatrix);
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
