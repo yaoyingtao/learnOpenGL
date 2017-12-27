@@ -201,9 +201,9 @@ const GLubyte indices[] = {
 
     CGFloat speed = 2;
     if (count < 120) {
-        camPos.z += speed;
+        camPos.x += speed;
     } else if (count < 240) {
-        camPos.z -= speed;
+        camPos.x -= speed;
 //    } else if (count < 360) {
 //        camPos.y += speed;
 //    } else if (count < 480) {
