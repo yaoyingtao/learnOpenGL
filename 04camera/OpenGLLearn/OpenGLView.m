@@ -184,18 +184,23 @@ const GLubyte indices[] = {
     CC3GLMatrix *projection = [[CC3GLMatrix alloc] initIdentity];
     float h = 4*self.frame.size.height/self.frame.size.width;
     [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:100];
-//    [projection populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:100];
+//    [projection populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:0.1 andFar:100];
 
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
     
     
-    NSInteger time =  [[NSDate date] timeIntervalSince1970]*50;
+    NSInteger time =  [[NSDate date] timeIntervalSince1970];
     time %=180;
+    
+    float radius = 10.0f;
+    float camX = sin(time)*radius;
+    float camZ = cos(time)*radius;
     CC3GLMatrix *model = [[CC3GLMatrix alloc] initIdentity];
-    [model translateByZ:-5];
+    [model populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
+//    [model translateByZ:-5];
 
-    [model rotateByZ:-time];
-    [model rotateByY:-time];
+//    [model rotateByZ:-time];
+//    [model rotateByY:-time];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, model.glMatrix);
 
     
@@ -215,11 +220,18 @@ const GLubyte indices[] = {
 
     for (int i = 1; i < 10; i++) {
         CC3GLMatrix *model1 = [[CC3GLMatrix alloc] initIdentity];
-        [model1 translateByZ:-5-i];
+        CC3GLMatrix *identity = [CC3GLMatrix identity];
+
+//        [model1 populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
+
+        
+//        [model1 translateByZ:-5-i];
         
      
-        [model1 translateByY:x[i]];
-        [model1 translateByX:y[i]];
+        [CC3GLMatrix populate:model1.glMatrix toLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
+        [model1 translateByY:i];
+        [model1 translateByX:i];
+
         [model1 rotateByZ:-time];
         [model1 rotateByY:-time];
         glUniformMatrix4fv(_modelViewUniform, 1, 0, model1.glMatrix);
