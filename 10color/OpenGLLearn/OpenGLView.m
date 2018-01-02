@@ -19,47 +19,47 @@ typedef struct {
 
 
 float vertices[] = {
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f,  0.5f, -0.5f,
+    0.5f,  0.5f, -0.5f,
+    -0.5f,  0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
     
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,
+    0.5f, -0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f,  0.5f,
+    -0.5f, -0.5f,  0.5f,
     
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f,  0.5f,
+    -0.5f,  0.5f,  0.5f,
     
-    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,
+    0.5f,  0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
     
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-    0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f,  0.5f,
+    0.5f, -0.5f,  0.5f,
+    -0.5f, -0.5f,  0.5f,
+    -0.5f, -0.5f, -0.5f,
     
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    -0.5f,  0.5f, -0.5f,
+    0.5f,  0.5f, -0.5f,
+    0.5f,  0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f, -0.5f,
 };
 
 
@@ -97,6 +97,9 @@ const GLubyte indices[] = {
 @property (nonatomic, assign) GLuint objectColorUniform;
 @property (nonatomic, assign) GLuint lightColorUniform;
 
+@property (nonatomic, assign) GLuint lightVAO;
+@property (nonatomic, assign) GLuint VAO;
+
 @property (nonatomic, assign) GLuint lightModel;
 @property (nonatomic, assign) GLuint lightView;
 @property (nonatomic, assign) GLuint lightProject;
@@ -118,12 +121,11 @@ const GLubyte indices[] = {
         [self setupFrameBuffer];
         self.lightProgram = [self compileLightShaders];
         self.program = [self compileShaders];
-        [self lightProgram];
-        [self setupLightVAO];
-        [self setupDisplayLink];
+        [self setupVBO];
+//        [self setupDisplayLink];
 //        _floorTexture = [self setupTexture:@"tile_floor.png" texure:GL_TEXTURE0];
         _fishTexture = [self setupTexture:@"item_powerup_fish.png" texure:GL_TEXTURE0];
-//        [self render:nil];
+        [self render:nil];
         
     }
     
@@ -160,7 +162,6 @@ const GLubyte indices[] = {
 }
 
 - (void)setupLightVAO {
-   
 }
 
 - (void)setupVBO {
@@ -168,15 +169,25 @@ const GLubyte indices[] = {
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), 0);
+    glEnableVertexAttribArray(0);
 
     GLuint indexBuffer;
     glGenBuffers(1, &indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     
+    GLuint VAO;
+    glGenVertexArraysOES(1, &VAO);
+    self.VAO = VAO;
+    glBindVertexArrayOES(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), 0);
+    glEnableVertexAttribArray(0);
     
     GLuint lightVAO;
     glGenVertexArraysOES(1, &lightVAO);
+    self.lightVAO = lightVAO;
     glBindVertexArrayOES(lightVAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), 0);
@@ -206,6 +217,8 @@ const GLubyte indices[] = {
 
 
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    glUseProgram(self.program);
+
     CC3GLMatrix *projection = [[CC3GLMatrix alloc] initIdentity];
     float h = 4*self.frame.size.height/self.frame.size.width;
     [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:100];
@@ -223,24 +236,6 @@ const GLubyte indices[] = {
     CC3Vector camPos = CC3VectorMake(5, 0, -5);
     CC3Vector originPos = CC3VectorMake(0, 0, -1);
     CC3Vector upPos = CC3VectorMake(0, 1, 0);
-
-    CGFloat speed = 2;
-    if (count < 120) {
-        camPos.x += speed;
-    } else if (count < 240) {
-        camPos.x -= speed;
-//    } else if (count < 360) {
-//        camPos.y += speed;
-//    } else if (count < 480) {
-//        camPos.y -= speed;
-//    } else if (count < 600) {
-//        camPos.z += speed;
-//    } else if (count < 720) {
-//        camPos.z -= speed;
-    } else {
-        count = 0;
-    }
-    count++;
     
     float radius = 10.0f;
     float camX = sin(time)*radius;
@@ -252,42 +247,41 @@ const GLubyte indices[] = {
 //    [model rotateByZ:-time];
 //    [model rotateByY:-time];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, model.glMatrix);
-
-    
-
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), 0);
-//    glVertexAttribPointer(_colorSlot, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), 3*sizeof(float));
-    glVertexAttribPointer(_texureSlot, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), 3*sizeof(float));
-
     glUniform1i(_textureUniform, 0);
     glUniform1i(_fishUniform, 1);
+    glBindVertexArrayOES(self.VAO);
 
 //    glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(indices[0]), GL_UNSIGNED_BYTE, 0);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+//    glDrawArrays(GL_TRIANGLES, 0, 36);
     
-    int x[] = {-1,3,7,-5,9,8,7,-4,3,5};
-    int y[] = {3,-4,-7,5,-2,3,-9,5,-3,5};
 
-    for (int i = 1; i < 10; i++) {
+    
+    glUseProgram(self.lightProgram);
+
         CC3GLMatrix *model1 = [[CC3GLMatrix alloc] initIdentity];
         CC3GLMatrix *identity = [CC3GLMatrix identity];
 
-//        [model1 populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
+        [model1 populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
 
-        
+
 //        [model1 translateByZ:-5-i];
-        
-     
-        [CC3GLMatrix populate:model1.glMatrix toLookAt:originPos withEyeAt:CC3VectorMake(camPos.x + originPos.x, camPos.y + originPos.y, camPos.z + originPos.z) withUp:upPos];
-        [model1 translateByY:i];
-        [model1 translateByX:i];
 
-//        [model1 rotateByZ:-time];
-//        [model1 rotateByY:-time];
-        glUniformMatrix4fv(_modelViewUniform, 1, 0, model1.glMatrix);
+
+//        [CC3GLMatrix populate:model1.glMatrix toLookAt:originPos withEyeAt:CC3VectorMake(camPos.x + originPos.x, camPos.y + originPos.y, camPos.z + originPos.z) withUp:upPos];
+//        [model1 translateByY:130];
+//        [model1 translateByX:140];
+
+        [model1 populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:0.1 andFar:100];
+
+        [model1 rotateByZ:40];
+        [model1 rotateByY:30];
+    [model1 scaleByX:0.3];
+    [model1 scaleByY:0.4];
+      [model1 scaleByZ:0.3];
+    [model1 translateBy:CC3VectorMake(70, 60, 0)];
+        glUniformMatrix4fv(_lightProject, 1, 0, model1.glMatrix);
+        glBindVertexArrayOES(self.lightVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
-    }
-
 
 
 

@@ -25,7 +25,7 @@
 		EC89C7581FBE733C003E18CA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC89C7571FBE7333003E18CA /* QuartzCore.framework */; };
 		EC89C75B1FBE7367003E18CA /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC89C75A1FBE7367003E18CA /* OpenGLView.m */; };
 		ECBE21FE1FF4842600193848 /* LightSimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = ECBE21FC1FF4842500193848 /* LightSimpleFragment.glsl */; };
-		ECBE21FF1FF4842600193848 /* LightSimpleVertexglsl.glsl in Resources */ = {isa = PBXBuildFile; fileRef = ECBE21FD1FF4842500193848 /* LightSimpleVertexglsl.glsl */; };
+		ECBE21FF1FF4842600193848 /* LightSimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = ECBE21FD1FF4842500193848 /* LightSimpleVertex.glsl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,7 +58,7 @@
 		EC89C7591FBE7367003E18CA /* OpenGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
 		EC89C75A1FBE7367003E18CA /* OpenGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
 		ECBE21FC1FF4842500193848 /* LightSimpleFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LightSimpleFragment.glsl; sourceTree = "<group>"; };
-		ECBE21FD1FF4842500193848 /* LightSimpleVertexglsl.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LightSimpleVertexglsl.glsl; sourceTree = "<group>"; };
+		ECBE21FD1FF4842500193848 /* LightSimpleVertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LightSimpleVertex.glsl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,7 @@
 				EC8055441FD7F38D001037E1 /* SimpleVertex.glsl */,
 				EC8055461FD7F422001037E1 /* SimpleFragment.glsl */,
 				ECBE21FC1FF4842500193848 /* LightSimpleFragment.glsl */,
-				ECBE21FD1FF4842500193848 /* LightSimpleVertexglsl.glsl */,
+				ECBE21FD1FF4842500193848 /* LightSimpleVertex.glsl */,
 				6ECC0FD91FF1478300C52462 /* Art */,
 				EC8055591FD911C5001037E1 /* Cocos3DMathLib */,
 			);
@@ -215,7 +215,7 @@
 				EC89C7481FBE72D3003E18CA /* Assets.xcassets in Resources */,
 				EC89C7461FBE72D3003E18CA /* Main.storyboard in Resources */,
 				EC8055471FD7F422001037E1 /* SimpleFragment.glsl in Resources */,
-				ECBE21FF1FF4842600193848 /* LightSimpleVertexglsl.glsl in Resources */,
+				ECBE21FF1FF4842600193848 /* LightSimpleVertex.glsl in Resources */,
 				ECBE21FE1FF4842600193848 /* LightSimpleFragment.glsl in Resources */,
 				6ECC0FDC1FF1478300C52462 /* item_powerup_fish.png in Resources */,
 			);
