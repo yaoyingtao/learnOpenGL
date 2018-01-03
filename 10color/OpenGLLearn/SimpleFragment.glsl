@@ -1,12 +1,9 @@
 
-varying lowp vec4 DestinationColor;
-varying lowp vec2 DestTexturCoord;
-
-uniform sampler2D ourTexture;
-uniform sampler2D fishTexture;
-
-
+uniform lowp vec3 objectColor;
+uniform lowp vec3 lightColor;
 
 void main(void) {
-    gl_FragColor = mix(texture2D(ourTexture, DestTexturCoord), texture2D(fishTexture, DestTexturCoord), 0.2);
+    gl_FragColor = vec4(lightColor * objectColor, 1.0);
+    //    gl_FragColor = vec4(1,0,0, 1.0);
 }
+

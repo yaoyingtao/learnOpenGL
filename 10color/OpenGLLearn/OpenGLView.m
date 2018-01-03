@@ -233,7 +233,7 @@ const GLubyte indices[] = {
     
     
     static NSInteger count = 0;
-    CC3Vector camPos = CC3VectorMake(5, 0, -5);
+    CC3Vector camPos = CC3VectorMake(5, 3, -5);
     CC3Vector originPos = CC3VectorMake(0, 0, -1);
     CC3Vector upPos = CC3VectorMake(0, 1, 0);
     
@@ -249,19 +249,18 @@ const GLubyte indices[] = {
     glUniformMatrix4fv(_modelViewUniform, 1, 0, model.glMatrix);
     glUniform1i(_textureUniform, 0);
     glUniform1i(_fishUniform, 1);
+    glUniform3f(_objectColorUniform, 1.0f, 1.0f, 1.0f);
+    glUniform3f(_lightColorUniform, 1.0f, 0.5f, 0.31f);
     glBindVertexArrayOES(self.VAO);
 
-//    glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(indices[0]), GL_UNSIGNED_BYTE, 0);
-//    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
     
 
     
     glUseProgram(self.lightProgram);
-
-        CC3GLMatrix *model1 = [[CC3GLMatrix alloc] initIdentity];
-        CC3GLMatrix *identity = [CC3GLMatrix identity];
-
-        [model1 populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
+    CC3GLMatrix *model1 = [[CC3GLMatrix alloc] initIdentity];
+    CC3GLMatrix *identity = [CC3GLMatrix identity];
+    [model1 populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
 
 
 //        [model1 translateByZ:-5-i];
@@ -271,17 +270,17 @@ const GLubyte indices[] = {
 //        [model1 translateByY:130];
 //        [model1 translateByX:140];
 
-        [model1 populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:0.1 andFar:100];
+    [model1 populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:0.1 andFar:100];
+    [model1 rotateByZ:40];
+    [model1 rotateByY:30];
+    [model1 scaleByX:0.1];
+    [model1 scaleByY:0.1];
+    [model1 scaleByZ:0.1];
+    [model1 translateBy:CC3VectorMake(13, 3, 0)];
+    glUniformMatrix4fv(_lightProject, 1, 0, model1.glMatrix);
 
-        [model1 rotateByZ:40];
-        [model1 rotateByY:30];
-    [model1 scaleByX:0.3];
-    [model1 scaleByY:0.4];
-      [model1 scaleByZ:0.3];
-    [model1 translateBy:CC3VectorMake(70, 60, 0)];
-        glUniformMatrix4fv(_lightProject, 1, 0, model1.glMatrix);
-        glBindVertexArrayOES(self.lightVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArrayOES(self.lightVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
 
@@ -319,7 +318,8 @@ const GLubyte indices[] = {
     _textureUniform = glGetUniformLocation(programHandle, "ourTexture");
     _fishUniform = glGetUniformLocation(programHandle, "fishTexture");
 
-    
+    _objectColorUniform = glGetUniformLocation(programHandle, "objectColor");
+    _lightColorUniform = glGetUniformLocation(programHandle, "lightColor");
 
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
@@ -356,10 +356,6 @@ const GLubyte indices[] = {
     _lightModel = glGetUniformLocation(programHandle, "model");
     _lightView = glGetUniformLocation(programHandle, "view");
     _lightProject = glGetUniformLocation(programHandle, "projection");
-
-    
-    _objectColorUniform = glGetUniformLocation(programHandle, "objectColor");
-    _lightColorUniform = glGetUniformLocation(programHandle, "lightColor");
     
     glEnableVertexAttribArray(_lightPos);
     
