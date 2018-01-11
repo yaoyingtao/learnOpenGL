@@ -81,9 +81,12 @@ const GLubyte indices[] = {
 @property (nonatomic, assign) GLuint positionSlot;
 @property (nonatomic, assign) GLuint colorSlot;
 @property (nonatomic, assign) GLuint texureSlot;
+@property (nonatomic, assign) GLuint normal;
+
 
 @property (nonatomic, assign) GLuint projectionUniform;
 @property (nonatomic, assign) GLuint modelViewUniform;
+@property (nonatomic, assign) GLuint lightPosUniform;
 @property (nonatomic, assign) GLuint textureUniform;
 @property (nonatomic, assign) GLuint fishUniform;
 
@@ -219,6 +222,10 @@ const GLubyte indices[] = {
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     glUseProgram(self.program);
 
+    
+//    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+//    glVertexAttribPointer(_normal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(float)*3));
+    
     CC3GLMatrix *projection = [[CC3GLMatrix alloc] initIdentity];
     float h = 4*self.frame.size.height/self.frame.size.width;
     [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:100];
@@ -248,6 +255,9 @@ const GLubyte indices[] = {
     glUniform1i(_fishUniform, 1);
     glUniform3f(_objectColorUniform, 1.0f, 1.0f, 1.0f);
     glUniform3f(_lightColorUniform, 1.0f, 0.5f, 0.31f);
+    
+    glUniform3f(_lightPos, 15.0f, 15.0f, 15.0f);
+
     glBindVertexArrayOES(self.VAO);
 
     glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -308,9 +318,13 @@ const GLubyte indices[] = {
     _positionSlot = glGetAttribLocation(programHandle, "Position");
     _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
     _texureSlot = glGetAttribLocation(programHandle, "TexturCoord");
+    _normal = glGetAttribLocation(programHandle, "Normal");
+
 
     _projectionUniform = glGetUniformLocation(programHandle, "Projection");
     _modelViewUniform = glGetUniformLocation(programHandle, "Modelview");
+    _lightPosUniform = glGetUniformLocation(programHandle, "lightPos");
+
     
     _textureUniform = glGetUniformLocation(programHandle, "ourTexture");
     _fishUniform = glGetUniformLocation(programHandle, "fishTexture");
@@ -321,7 +335,8 @@ const GLubyte indices[] = {
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_colorSlot);
     glEnableVertexAttribArray(_texureSlot);
-    
+    glEnableVertexAttribArray(_normal);
+
     return programHandle;
 
 
