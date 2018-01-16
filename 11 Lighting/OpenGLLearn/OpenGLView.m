@@ -11,7 +11,7 @@
 
 typedef struct {
     float Position[3];
-    float Color[4];
+    float Color[3];
 } Vertex;
 
 
@@ -79,8 +79,6 @@ const GLubyte indices[] = {
 @property (nonatomic, assign) GLuint depthRenderBuffer;
 
 @property (nonatomic, assign) GLuint positionSlot;
-@property (nonatomic, assign) GLuint colorSlot;
-@property (nonatomic, assign) GLuint texureSlot;
 @property (nonatomic, assign) GLuint normal;
 
 
@@ -96,19 +94,10 @@ const GLubyte indices[] = {
 @property (nonatomic, assign) float currentRotation;
 
 @property (nonatomic, assign) GLuint program;
-@property (nonatomic, assign) GLuint lightProgram;
 @property (nonatomic, assign) GLuint objectColorUniform;
 @property (nonatomic, assign) GLuint lightColorUniform;
 
-@property (nonatomic, assign) GLuint lightVAO;
 @property (nonatomic, assign) GLuint VAO;
-
-@property (nonatomic, assign) GLuint lightModel;
-@property (nonatomic, assign) GLuint lightView;
-@property (nonatomic, assign) GLuint lightProject;
-@property (nonatomic, assign) GLuint lightPos;
-
-
 
 @end
 
@@ -122,7 +111,6 @@ const GLubyte indices[] = {
         [self setupdepthBuffer];    //必须再renderbuffer之前
         [self setupRenderBuffer];
         [self setupFrameBuffer];
-        self.lightProgram = [self compileLightShaders];
         self.program = [self compileShaders];
         [self setupVBO];
 //        [self setupDisplayLink];
@@ -179,22 +167,7 @@ const GLubyte indices[] = {
     glGenBuffers(1, &indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    GLuint VAO;
-    glGenVertexArraysOES(1, &VAO);
-    self.VAO = VAO;
-    glBindVertexArrayOES(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), 0);
-    glEnableVertexAttribArray(0);
-    
-    GLuint lightVAO;
-    glGenVertexArraysOES(1, &lightVAO);
-    self.lightVAO = lightVAO;
-    glBindVertexArrayOES(lightVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), 0);
-    glEnableVertexAttribArray(0);
+
 }
 
 - (void)setupFrameBuffer {
@@ -220,16 +193,15 @@ const GLubyte indices[] = {
 
 
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-    glUseProgram(self.program);
 
     
-//    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-//    glVertexAttribPointer(_normal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(float)*3));
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_normal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(float)*3));
     
     CC3GLMatrix *projection = [[CC3GLMatrix alloc] initIdentity];
     float h = 4*self.frame.size.height/self.frame.size.width;
-    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:100];
-//    [projection populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:0.1 andFar:100];
+//    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:100];
+    [projection populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:0.1 andFar:100];
 
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
     
@@ -254,42 +226,11 @@ const GLubyte indices[] = {
     glUniform1i(_textureUniform, 0);
     glUniform1i(_fishUniform, 1);
     glUniform3f(_objectColorUniform, 1.0f, 1.0f, 1.0f);
-    glUniform3f(_lightColorUniform, 1.0f, 0.5f, 0.31f);
-    
-    glUniform3f(_lightPos, 15.0f, 15.0f, 15.0f);
-
-    glBindVertexArrayOES(self.VAO);
+    glUniform3f(_lightColorUniform, 0.5f, 0.0f, 0.5f);
+    glUniform3f(_lightPosUniform, 10.0f, 10.0f, 10.0f);
 
     glDrawArrays(GL_TRIANGLES, 0, 36);
     
-
-    
-    glUseProgram(self.lightProgram);
-    CC3GLMatrix *model1 = [[CC3GLMatrix alloc] initIdentity];
-    CC3GLMatrix *identity = [CC3GLMatrix identity];
-    [model1 populateToLookAt:CC3VectorMake(0, 0, 0) withEyeAt:CC3VectorMake(camX, 0, camZ) withUp:CC3VectorMake(0, 1, 0)];
-
-
-//        [model1 translateByZ:-5-i];
-
-
-//        [CC3GLMatrix populate:model1.glMatrix toLookAt:originPos withEyeAt:CC3VectorMake(camPos.x + originPos.x, camPos.y + originPos.y, camPos.z + originPos.z) withUp:upPos];
-//        [model1 translateByY:130];
-//        [model1 translateByX:140];
-
-    [model1 populateOrthoFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:0.1 andFar:100];
-    [model1 rotateByZ:40];
-    [model1 rotateByY:30];
-    [model1 scaleByX:0.1];
-    [model1 scaleByY:0.1];
-    [model1 scaleByZ:0.1];
-    [model1 translateBy:CC3VectorMake(13, 3, 0)];
-    glUniformMatrix4fv(_lightProject, 1, 0, model1.glMatrix);
-
-    glBindVertexArrayOES(self.lightVAO);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-
-
 
     [_contex presentRenderbuffer:GL_RENDERBUFFER];
 }
@@ -316,14 +257,11 @@ const GLubyte indices[] = {
     glUseProgram(programHandle);
 
     _positionSlot = glGetAttribLocation(programHandle, "Position");
-    _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
-    _texureSlot = glGetAttribLocation(programHandle, "TexturCoord");
     _normal = glGetAttribLocation(programHandle, "Normal");
 
 
     _projectionUniform = glGetUniformLocation(programHandle, "Projection");
     _modelViewUniform = glGetUniformLocation(programHandle, "Modelview");
-    _lightPosUniform = glGetUniformLocation(programHandle, "lightPos");
 
     
     _textureUniform = glGetUniformLocation(programHandle, "ourTexture");
@@ -331,47 +269,13 @@ const GLubyte indices[] = {
 
     _objectColorUniform = glGetUniformLocation(programHandle, "objectColor");
     _lightColorUniform = glGetUniformLocation(programHandle, "lightColor");
+    _lightPosUniform = glGetUniformLocation(programHandle, "lightPos");
 
     glEnableVertexAttribArray(_positionSlot);
-    glEnableVertexAttribArray(_colorSlot);
-    glEnableVertexAttribArray(_texureSlot);
     glEnableVertexAttribArray(_normal);
 
     return programHandle;
 
-
-}
-
-- (GLuint)compileLightShaders {
-    GLuint vertexShader = [self compileShader:@"LightSimpleVertex" withType:GL_VERTEX_SHADER];
-    GLuint fragementShader = [self compileShader:@"LightSimpleFragment" withType:GL_FRAGMENT_SHADER];
-    
-    GLuint programHandle = glCreateProgram();
-    glAttachShader(programHandle, vertexShader);
-    glAttachShader(programHandle, fragementShader);
-    glLinkProgram(programHandle);
-    
-    GLint linkSuccess;
-    glGetProgramiv(programHandle, GL_LINK_STATUS, &linkSuccess);
-    if (linkSuccess == GL_FALSE) {
-        GLchar messages[256];
-        glGetProgramInfoLog(programHandle, sizeof(messages), 0, &messages[0]);
-        NSString *messageString = [NSString stringWithUTF8String:messages];
-        NSLog(@"%@", messageString);
-        exit(1);
-    }
-    
-    glUseProgram(programHandle);
-    
-    _lightPos = glGetAttribLocation(programHandle, "pos");
-    
-    _lightModel = glGetUniformLocation(programHandle, "model");
-    _lightView = glGetUniformLocation(programHandle, "view");
-    _lightProject = glGetUniformLocation(programHandle, "projection");
-    
-    glEnableVertexAttribArray(_lightPos);
-    
-    return programHandle;
 
 }
 
