@@ -96,6 +96,7 @@ const GLubyte indices[] = {
 @property (nonatomic, assign) GLuint program;
 @property (nonatomic, assign) GLuint objectColorUniform;
 @property (nonatomic, assign) GLuint lightColorUniform;
+@property (nonatomic, assign) GLuint viewPosUniform;
 
 @property (nonatomic, assign) GLuint VAO;
 
@@ -228,7 +229,9 @@ const GLubyte indices[] = {
     glUniform3f(_objectColorUniform, 1.0f, 1.0f, 1.0f);
     glUniform3f(_lightColorUniform, 0.5f, 0.0f, 0.5f);
     glUniform3f(_lightPosUniform, 10.0f, 10.0f, 10.0f);
+    glUniform3f(_viewPosUniform, -5.0f, -18.0f, 15.0f);
 
+    
     glDrawArrays(GL_TRIANGLES, 0, 36);
     
 
@@ -270,6 +273,7 @@ const GLubyte indices[] = {
     _objectColorUniform = glGetUniformLocation(programHandle, "objectColor");
     _lightColorUniform = glGetUniformLocation(programHandle, "lightColor");
     _lightPosUniform = glGetUniformLocation(programHandle, "lightPos");
+    _viewPosUniform = glGetUniformLocation(programHandle, "viewPos");
 
     glEnableVertexAttribArray(_positionSlot);
     glEnableVertexAttribArray(_normal);
